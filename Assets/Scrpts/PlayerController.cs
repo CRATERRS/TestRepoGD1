@@ -47,15 +47,10 @@ public class PlayerController : MonoBehaviour
         //Applico il vettore movimento al rigidbody
         rb.velocity = playerMovement;
 
-
+        if (Physics.Raycast(transform.position, transform.forward, 10f, groundMask))
+            Debug.Log("Colpito");
 
         Debug.DrawRay(transform.position, transform.forward * 10, Color.cyan);
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, 10, groundMask));
-        {
-            Debug.Log("Colpito");
-        }
     }
 
 
