@@ -31,27 +31,44 @@ public class PlayerController : MonoBehaviour
         float zMove = Input.GetAxisRaw("Vertical");
 
         //Costruisco il vettore movimento
-        Vector3 playerMovement = (Vector3.right * xMove + Vector3.forward * zMove).normalized * speed /** Time.deltaTime*/;
+        Vector3 velocity = (Vector3.right * xMove + Vector3.forward * zMove).normalized * speed /** Time.deltaTime*/;
+
+
+        //Se la velocita non è nulla , routo il character
+        if(velocity.magnitude != 0)
+        {
+            transform.forward = velocity;
+        }
+       
+        
+
+
 
         //Applico la mia velocity yverticale al vetore movimento
-        playerMovement.y = rb.velocity.y;
+        velocity.y = rb.velocity.y;
 
         
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            playerMovement.y += Mathf.Sqrt(jumpHeight * -2f * (-9.81f));
+            velocity.y += Mathf.Sqrt(jumpHeight * -2f * (-9.81f));
         }
 
+        if (!isGrounded)
+        {
+            velocity.y += -9.8f * Time.deltaTime;
+        }
 
         //Applico il vettore movimento al rigidbody
-        rb.velocity = playerMovement;
+        rb.velocity = velocity;
 
         if (Physics.Raycast(transform.position, transform.forward, 10f, groundMask))
             Debug.Log("Colpito");
 
         Debug.DrawRay(transform.position, transform.forward * 10, Color.cyan);
     }
+
+
 
 
     private void OnTriggerEnter(Collider other)
