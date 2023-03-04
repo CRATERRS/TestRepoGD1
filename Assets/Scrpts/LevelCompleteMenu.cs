@@ -13,6 +13,8 @@ public class LevelCompleteMenu : MonoBehaviour
         if (collision. collider. tag == "LevelComplete")
         {
             Time.timeScale = 0f;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             LevelCompleteUI.SetActive(true);
         }
     }
