@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 2b4a5479f2d44fd49984267c41ca6a7a
+  - enabled: 1
+    path: Assets/Scenes/pittzy.unity
+    guid: 42ebee503fed43d4e8542a5992655b1d
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 38e0115e5eb2f754587bc26e4cea2965, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 96d82ff07b04efd46aef27d7e4995556, type: 2}
