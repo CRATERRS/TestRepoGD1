@@ -43,7 +43,15 @@ public class PlayerMovement : MonoBehaviour
     public enum MovementState
     {
         crouching,
+        freeze,
+        unlimited,
     }
+
+
+    public bool freeze;
+    public bool unlimited;
+
+    public bool restricted;
 
 
     private void Start()
@@ -107,6 +115,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (restricted) return;
+
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         //on ground
@@ -149,6 +159,21 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
+        }
+
+        //Mode - Freeze
+        if (freeze)
+        {
+            state = MovementState.freeze;
+            rb.velocity = Vector3.zero;
+        }
+
+        //Mode - Unlimited
+        else if (unlimited)
+        {
+            state = MovementState.unlimited;
+            moveSpeed = 999f;
+            return;
         }
     }
 

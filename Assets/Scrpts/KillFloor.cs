@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 public class KillFloor : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class KillFloor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        player.transform.position = respawn_point.transform.position;
+        //player.transform.position = respawn_point.transform.position;
+        SceneManager.LoadScene("pittzy", LoadSceneMode.Single);
+        
     }
 }

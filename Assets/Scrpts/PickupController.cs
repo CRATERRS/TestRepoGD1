@@ -20,7 +20,7 @@ public class PickupController : MonoBehaviour
             if(heldObj == null)
             {
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupForce))
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange))
                 {
                     //PicjupObject
                     PickupObject(hit.transform.gameObject);
