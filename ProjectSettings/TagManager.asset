@@ -7,6 +7,8 @@ TagManager:
   - Collectible
   - Ground
   - LevelComplete
+  - SF_Door
+  - Door
   layers:
   - Default
   - TransparentFX

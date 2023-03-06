@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -34,9 +35,12 @@ public class PlayerMovement : MonoBehaviour
     float horizontalInput;
     float verticalInput;
 
+
     Vector3 moveDirection;
 
     Rigidbody rb;
+
+
 
     public MovementState state;
 
@@ -76,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
+
     }
 
     private void FixedUpdate()
@@ -176,5 +181,4 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
     }
-
 }
