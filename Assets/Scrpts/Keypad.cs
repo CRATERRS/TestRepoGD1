@@ -4,7 +4,7 @@ using System.Collections;
 public class Keypad : MonoBehaviour
 {
 
-    public string curPassword = "12345";
+    public string curPassword = "27438";
     public string input;
     public bool onTrigger;
     public bool doorOpen;
@@ -14,6 +14,8 @@ public class Keypad : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         onTrigger = true;
+        
+
     }
 
     void OnTriggerExit(Collider other)
@@ -21,6 +23,10 @@ public class Keypad : MonoBehaviour
         onTrigger = false;
         keypadScreen = false;
         input = "";
+
+        PlayerCam.instance.freezeCamControlls = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -51,6 +57,7 @@ public class Keypad : MonoBehaviour
                     onTrigger = false;
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
+                    PlayerCam.instance.freezeCamControlls = true;
                 }
             }
 

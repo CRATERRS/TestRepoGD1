@@ -30,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
+    [Header("Ladder")]
+    public bool onLadder;
+    public float LadderVerticalSpeed;
+
     public Transform orientation;
 
     float horizontalInput;
@@ -93,14 +97,34 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        //when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (onLadder)
         {
-            readyToJump = false;
+            Vector3 newVelocity;
+            newVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            //rb.AddForce(Vector3.up * 9.81f, ForceMode.VelocityChange); 
+            rb.useGravity = false;
+            if (Input.GetKey(jumpKey))
+            {
+                newVelocity.y += LadderVerticalSpeed;
+            }
+            if (Input.GetKey(crouchKey))
+            {
+                newVelocity.y = LadderVerticalSpeed;
+            }
+        }
+        else
+        {
+            rb.useGravity = true;
+            //when to jump
+            if (Input.GetKey(jumpKey) && readyToJump && grounded)
+            {
+                readyToJump = false;
 
-            Jump();
+                Jump();
 
-            Invoke(nameof(ResetJump), jumpCoolddown);
+                Invoke(nameof(ResetJump), jumpCoolddown);
+            }
+
         }
 
         //Start crouch
