@@ -30,14 +30,16 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
-    [Header("Ladder")]
+   /* [Header("Ladder")]
     public bool onLadder;
-    public float LadderVerticalSpeed;
+    public float LadderVerticalSpeed;*/
 
     public Transform orientation;
 
     float horizontalInput;
     float verticalInput;
+    private Vector3 newVelocity;
+
 
 
     Vector3 moveDirection;
@@ -56,8 +58,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public bool freeze;
-    public bool unlimited;
+    /*public bool freeze;
+    public bool unlimited;*/
 
     public bool restricted;
 
@@ -70,12 +72,17 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
 
         startYScale = transform.localScale.y;
+
+        //newVelocity
+        //newVelocity = new Vector3(0, 0, 0);
     }
 
     private void Update()
     {
         //ground Check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+
+        Debug.DrawRay(transform.position, Vector3.down * (playerHeight * 0.5f + 0.2f), Color.red);
 
         MyInput();
         SpeedControl();
@@ -84,7 +91,6 @@ public class PlayerMovement : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
-
     }
 
     private void FixedUpdate()
@@ -97,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if (onLadder)
+        /*if (onLadder)
         {
             Vector3 newVelocity;
             newVelocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -111,8 +117,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 newVelocity.y = LadderVerticalSpeed;
             }
-        }
-        else
+        } */
+       // else
         {
             rb.useGravity = true;
             //when to jump
@@ -154,7 +160,7 @@ public class PlayerMovement : MonoBehaviour
 
         //in air
         else if(!grounded)
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 2f * airMultiplier, ForceMode.Force);
     }
 
 
@@ -191,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Mode - Freeze
-        if (freeze)
+        /*if (freeze)
         {
             state = MovementState.freeze;
             rb.velocity = Vector3.zero;
@@ -203,6 +209,11 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.unlimited;
             moveSpeed = 999f;
             return;
-        }
+        }*/
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
     }
 }

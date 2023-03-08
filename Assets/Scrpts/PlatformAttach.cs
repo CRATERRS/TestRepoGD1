@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class PlatformAttach : MonoBehaviour
 {
-   public GameObject Player;
+    public GameObject Player;
 
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject == Player)
-		{
-			Player.transform.parent = transform;
-		}	
-	}
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.name);
 
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.gameObject == Player)
-		{
-			Player.transform.parent = null;
-		}
-	}
+        if (other.gameObject == Player)
+        {
+            Player.transform.parent = transform;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == Player)
+        {
+            Player.transform.parent = null;
+        }
+    }
 }
