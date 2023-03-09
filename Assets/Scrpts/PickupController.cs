@@ -13,12 +13,23 @@ public class PickupController : MonoBehaviour
     [SerializeField] private float pickupRange = 5.0f;
     [SerializeField] private float pickupForce = 150.0f;
 
+   
+    public GameObject pickUpObj;
+    public GameObject pickUp;
+
+   
+
+
+
+
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             if(heldObj == null)
             {
+                
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickupRange))
                 {

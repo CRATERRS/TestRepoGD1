@@ -9,6 +9,8 @@ TagManager:
   - LevelComplete
   - SF_Door
   - Door
+  - PickUpObj
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
