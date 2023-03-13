@@ -4,43 +4,47 @@ using UnityEngine;
 
 public class GravityGun : MonoBehaviour
 {
-    // Riferimento al rigidbody dell'oggetto che viene sollevato dal Gravity Gun
-    private Rigidbody objectToMove;
 
-    // La distanza massima a cui l'oggetto può essere sollevato dal Gravity Gun
-    public float maxDistance = 5f;
+    [SerializeField] Camera cam;
+    [SerializeField] float maxGrabDistance = 10f, throwForce = 20f, lerpSpeed = 10f;
+    [SerializeField] Transform objectHolder;
 
-    // La forza con cui l'oggetto viene sollevato dal Gravity Gun
-    public float moveForce = 1000f;
+    Rigidbody grabbedRB;
 
-    // Funzione che viene chiamata quando si tiene premuto il tasto sinistro del mouse
-    private void OnTriggerStay(Collider other)
+    void Update()
     {
-        // Controlla se l'oggetto ha un rigidbody
-        if (other.GetComponent<Rigidbody>())
+        if (grabbedRB)
         {
-            // Salva il riferimento al rigidbody dell'oggetto
-            objectToMove = other.GetComponent<Rigidbody>();
+            grabbedRB.MovePosition(Vector3.Lerp(grabbedRB.position, objectHolder.transform.position, Time.deltaTime * lerpSpeed));
 
-            // Calcola la distanza tra l'oggetto e il Gravity Gun
-            float distance = Vector3.Distance(transform.position, objectToMove.transform.position);
-
-            // Se la distanza è inferiore alla distanza massima consentita, solleva l'oggetto
-            if (distance <= maxDistance)
+            if (Input.GetMouseButtonDown(0))
             {
-                // Calcola la direzione in cui l'oggetto deve essere sollevato
-                Vector3 moveDirection = transform.position - objectToMove.transform.position;
-
-                // Applica la forza necessaria per sollevare l'oggetto nella direzione corretta
-                objectToMove.AddForce(moveDirection.normalized * moveForce);
+                grabbedRB.isKinematic = false;
+                grabbedRB.AddForce(cam.transform.forward * throwForce, ForceMode.VelocityChange);
+                grabbedRB = null;
             }
         }
-    }
 
-    // Funzione che viene chiamata quando si rilascia il tasto sinistro del mouse
-    private void OnTriggerExit(Collider other)
-    {
-        // Resetta il riferimento all'oggetto che era stato sollevato dal Gravity Gun
-        objectToMove = null;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (grabbedRB)
+            {
+                grabbedRB.isKinematic = false;
+                grabbedRB = null;
+            }
+            else
+            {
+                RaycastHit hit;
+                Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+                if (Physics.Raycast(ray, out hit, maxGrabDistance))
+                {
+                    grabbedRB = hit.collider.gameObject.GetComponent<Rigidbody>();
+                    if (grabbedRB)
+                    {
+                        grabbedRB.isKinematic = true;
+                    }
+                }
+            }
+        }
     }
 }
